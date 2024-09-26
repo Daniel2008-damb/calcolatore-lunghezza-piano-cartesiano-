@@ -1,0 +1,149 @@
+﻿@page
+@model CalcolatoreModel
+@{
+    ViewData["Title"] = "Calcolatore di Distanza";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 100%;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        color: #555;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    .result {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 1.2em;
+        color: #333;
+    }
+
+    canvas {
+        margin-top: 20px;
+    }
+
+    .credits {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 0.9em;
+        color: #777;
+    }
+</style>
+
+<div class="container">
+    <h2>Calcolatore di Distanza</h2>
+    <form method="post">
+        <label for="x1">Coordinata x del primo punto:</label>
+        <input type="text" id="x1" name="x1" />
+        <label for="y1">Coordinata y del primo punto:</label>
+        <input type="text" id="y1" name="y1" />
+        <label for="x2">Coordinata x del secondo punto:</label>
+        <input type="text" id="x2" name="x2" />
+        <label for="y2">Coordinata y del secondo punto:</label>
+        <input type="text" id="y2" name="y2" />
+        <button type="submit">Calcola Distanza</button>
+    </form>
+
+    @if (Model.Distanza != null)
+    {
+        <div class="result">
+            La distanza tra i due punti è: @Model.Distanza
+        </div>
+        <canvas id="myChart" width="400" height="400"></canvas>
+        <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Punti',
+                        data: [{ x: @Model.x1, y: @Model.y1 }, { x: @Model.x2, y: @Model.y2 }],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2,
+                        showLine: true,
+                        fill: false,
+                        pointBackgroundColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)']
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'Coordinata X'
+                            },
+                            min: -10, // Imposta il minimo valore dell'asse X
+                            max: 10  // Imposta il massimo valore dell'asse X
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Coordinata Y'
+                            },
+                            min: -10, // Imposta il minimo valore dell'asse Y
+                            max: 10  // Imposta il massimo valore dell'asse Y
+                        }
+                    }
+                }
+            });
+        </script>
+    }
+
+    <div class="credits">
+        Progetto realizzato da Daniel Pio D'Ambrosio
+    </div>
+</div>
